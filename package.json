@@ -19,6 +19,12 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hermannleboss/tennis-score.git"
+  },
+  "homepage": "https://hermannleboss.github.io/tennis-score/build/",
   "eslintConfig": {
     "extends": [
       "react-app",

@@ -2,6 +2,12 @@
 
 This project is the practic section off openClassroom lesson [Utilisez le state manager Redux pour gérer l’état de vos applications](https://openclassrooms.com/fr/courses/7150626-utilisez-le-state-manager-redux-pour-gerer-l-etat-de-vos-applications).
 
+## Test the app
+
+If you want to test the app follow this link
+
+[Tenis app Link](https://hermannleboss.github.io/tennis-score/build/)
+
 ## Available Scripts
 
 In the project directory, you can run:
