@@ -1,4 +1,4 @@
-const PLAYER = { PLAYER1: 'PLAYER1', PLAYER2: 'PLAYER2' };
+export const PLAYER = { PLAYER1: 'player1', PLAYER2: 'player2' };
 // mettre en pause / reprendre le jeu
 export const playPause = () => ({ type: 'playPause' });
 // redémarrer le jeu
