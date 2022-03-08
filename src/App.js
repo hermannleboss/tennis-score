@@ -1,11 +1,11 @@
-import { PlayPauseButton } from "./PlayPauseButton";
-import { Display } from "./Display";
+import { Display } from './components/Display';
+import { PlayPauseButton } from './components/PlayPauseButton';
 
 export default function App() {
   return (
     <div>
-      <Display />
-      <PlayPauseButton />
+      <Display/>
+      <PlayPauseButton/>
     </div>
   );
 }
