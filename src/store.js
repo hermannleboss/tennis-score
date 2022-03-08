@@ -1,5 +1,4 @@
-import {createStore} from 'redux'
-
+import { createStore } from 'redux';
 
 // Le state
 const initialState = {
@@ -13,46 +12,33 @@ const initialState = {
   // Si la partie est en cours on utilise null
   winner: null,
   // La partie est-elle en cours ?
-  playing: true
+  playing: true,
 };
 
 // Les actions creators
-
-// mettre en pause / reprendre le jeu
-const playPause = () => ({ type: "playPause" });
-
-// redémarrer le jeu
-const restartGame = () => ({ type: "restart" });
-
-// un joueur a marqué un point
-// on passe en paramètre le joueur qui a marqué
-const pointScored = (player) => ({
-  type: "pointScored",
-  payload: { player: player }
-});
 
 // le reducer contient la logique
 // c'est une fonction qui reçoit le state et une action
 function reducer(state, action) {
   // si l'action est de type "restart"
-  if (action.type === "restart") {
+  if (action.type === 'restart') {
     // on retourne le state initial
     return initialState;
   }
   // si l'action est de type "playPause"
-  if (action.type === "playPause") {
+  if (action.type === 'playPause') {
     // on retourne un nouvel objet
     return {
       // qui est une copie du state
       ...state,
       // mais on replace la propriété playing
-      playing: !state.playing
+      playing: !state.playing,
     };
   }
   // lorsqu'un joueur marque un point
-  if (action.type === "pointScored") {
+  if (action.type === 'pointScored') {
     const player = action.payload.player;
-    const otherPlayer = player === "player1" ? "player2" : "player1";
+    const otherPlayer = player === 'player1' ? 'player2' : 'player1';
     if (state.winner) {
       // le jeu est fini, on ne peut pas marquer
       // on retourne le state
@@ -98,4 +84,4 @@ function reducer(state, action) {
 }
 
 // on crée le store
-const store = createStore(reducer, initialState);
+export const store = createStore(reducer, initialState);

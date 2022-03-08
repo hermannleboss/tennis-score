@@ -1,9 +1,11 @@
-function App() {
+import { PlayPauseButton } from "./PlayPauseButton";
+import { Display } from "./Display";
+
+export default function App() {
   return (
     <div>
-      Hello Hermann
+      <Display />
+      <PlayPauseButton />
     </div>
   );
 }
-
-export default App;
