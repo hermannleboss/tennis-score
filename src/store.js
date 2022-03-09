@@ -85,24 +85,21 @@ function reducer(state, action) {
       // si personne n'as l'avantage
       if (state.advantage === null) {
         // le joueur a maintenant l'avantage !
-        produce(state, draft => {
+
+        //return { ...state, advantage: player };
+        return produce(state, draft => {
           draft.advantage= player;
         });
       }
       // sinon c'est l'autre joueur qui a l'avantage
       // l'autre joueur perd l'avantage
-      produce(state, draft => {
+      return produce(state, draft => {
         draft.advantage= null;
       });
     }
   }
-
   return state;
 }
 
 // on crée le store
 export const store = createStore(reducer, initialState);
-store.subscribe(() => {
-  console.log('Nouveau state:');
-  console.log(store.getState());
-});
