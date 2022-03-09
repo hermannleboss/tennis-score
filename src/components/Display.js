@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux';
 
 export function Display() {
-  const gameIsPlaying = useSelector(state => state.playing);
   const playing = useSelector(state => state.playing);
   const winner = useSelector(state => state.winner);
   const player1Score = useSelector(state => state.player1);
