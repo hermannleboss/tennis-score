@@ -13,6 +13,10 @@ const initialState = {
   winner: null,
   // La partie est-elle en cours ?
   playing: true,
+  // historique des jeux joués
+  history: [
+    // { player1: 15, player2: 40, winner: "player2" }
+  ],
 };
 
 // Les actions creators
@@ -21,9 +25,23 @@ const initialState = {
 // c'est une fonction qui reçoit le state et une action
 function reducer(state, action) {
   // si l'action est de type "restart"
-  if (action.type === 'restart') {
-    // on retourne le state initial
-    return initialState;
+  if (action.type === "restart") {
+    return produce(state, (draft) => {
+      // si le match est terminé, on ajoute un élément à l'historique
+      if (draft.winner) {
+        draft.history.push({
+          player1: draft.player1,
+          player2: draft.player2,
+          winner: draft.winner,
+        });
+      }
+      // puis on reset les autres propriétés
+      draft.player1 = 0;
+      draft.player2 = 0;
+      draft.advantage = null;
+      draft.winner = null;
+      draft.playing = true;
+    });
   }
   // si l'action est de type "playPause"
   if (action.type === 'playPause') {

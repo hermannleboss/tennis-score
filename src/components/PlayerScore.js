@@ -1,14 +1,26 @@
-import { useSelector } from 'react-redux';
-import { slectPlayerHasAdvantage } from './selctors';
+import { useSelector } from "react-redux";
+import {
+  selectPlayerHasAdvantage,
+  selectPlayerScore,
+  selectPointBeforeWin,
+} from "./selectors";
 
 export function PlayerScore({ playerId, playerName }) {
-  const score = useSelector((state) => state[playerId]);
-  const hasAdvantage = useSelector(slectPlayerHasAdvantage(playerId));
+  const score = useSelector(selectPlayerScore(playerId));
+  const hasAdvantage = useSelector(selectPlayerHasAdvantage(playerId));
+  const pointsBeforeWin = useSelector(selectPointBeforeWin(playerId));
 
   return (
     <div className="player-score">
-      <p>{playerName}</p>
-      <p>{(hasAdvantage ? 'Avantage - ' : ' ') + score}</p>
+      <p>
+        {playerName}
+        {pointsBeforeWin === null
+          ? ""
+          : ` (encore ${pointsBeforeWin} ${
+            pointsBeforeWin > 1 ? "points" : "point"
+          })`}
+      </p>
+      <p>{(hasAdvantage ? "Avantage " : "") + score}</p>
     </div>
   );
 }
