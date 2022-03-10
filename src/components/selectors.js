@@ -42,8 +42,6 @@ export const selectDisplayText = (state) => {
     } else {
       return 'Joueur 2 gagne';
     }
-  } else if (state.playing === false) {
-    return 'C\'est la pause';
   } else {
     let text = 'Le score est: ' + state.player1 + ' - ' + state.player2;
     if (state.advantage) {
@@ -61,3 +59,4 @@ export const selectPlayerPoints = (playerId) => {
   return (state) =>
     state.history.filter((item) => item.winner === playerId).length;
 };
+export const selectGameIsPlaying = (state) => state.playing;

@@ -1,23 +1,41 @@
 import { createStore } from 'redux';
 import produce from 'immer';
+import { pointScored, setPlaying } from './actions';
 // Le state
 const initialState = {
-  // Le score de chacun des joueurs
-  player1: 0,
-  player2: 0,
-  // Si il y a 40-40 quel joueur a l'avantage
-  // On utilise null si pas d'avantage
+  player1:   0,
+  player2:   0,
   advantage: null,
-  // Qui a gagné ?
-  // Si la partie est en cours on utilise null
-  winner: null,
-  // La partie est-elle en cours ?
-  playing: true,
+  winner:    null,
+  playing:   false,
   // historique des jeux joués
   history: [
     // { player1: 15, player2: 40, winner: "player2" }
   ],
 };
+
+
+export const autoplay = (store) => {
+  const isPlaying = store.getState().playing;
+  if (isPlaying) {
+    return;
+  }
+  // on indique que la partie est en cours
+  store.dispatch(setPlaying(true));
+  // on utilise setTimeout pour attendre 2 secondes
+  window.setTimeout(() => {
+    // le jeu est-il toujours en cours ?
+    if (store.getState().playing === false) {
+      // Si non, on ne fait rien
+      return;
+    }
+    // si oui on marque un point aléatoire
+    const pointWinner = Math.random() > 0.5 ? 'player1' : 'player2';
+    store.dispatch(pointScored(pointWinner));
+    // on remet le jeu en pause
+    store.dispatch(setPlaying(false));
+  }, 2000);
+}
 
 // Les actions creators
 
@@ -25,14 +43,14 @@ const initialState = {
 // c'est une fonction qui reçoit le state et une action
 function reducer(state, action) {
   // si l'action est de type "restart"
-  if (action.type === "restart") {
+  if (action.type === 'restart') {
     return produce(state, (draft) => {
       // si le match est terminé, on ajoute un élément à l'historique
       if (draft.winner) {
         draft.history.push({
           player1: draft.player1,
           player2: draft.player2,
-          winner: draft.winner,
+          winner:  draft.winner,
         });
       }
       // puis on reset les autres propriétés
@@ -43,11 +61,13 @@ function reducer(state, action) {
       draft.playing = true;
     });
   }
-  // si l'action est de type "playPause"
-  if (action.type === 'playPause') {
-    // on retourne un nouvel objet
-    return produce(state, draft => {
-      draft.playing = !draft.playing;
+  // dans le reducer
+  if (action.type === 'setPlaying') {
+    if (state.winner) {
+      return state;
+    }
+    return produce(state, (draft) => {
+      draft.playing = action.payload;
     });
   }
   // lorsqu'un joueur marque un point
@@ -88,7 +108,7 @@ function reducer(state, action) {
         // le joueur a gagné !
 
         return produce(state, draft => {
-          draft.winner= player;
+          draft.winner = player;
         });
         //return { ...state, winner: player };
       }
@@ -97,7 +117,7 @@ function reducer(state, action) {
         // le joueur a gagné !
 
         return produce(state, draft => {
-          draft.winner= player;
+          draft.winner = player;
         });
       }
       // si personne n'as l'avantage
@@ -106,18 +126,24 @@ function reducer(state, action) {
 
         //return { ...state, advantage: player };
         return produce(state, draft => {
-          draft.advantage= player;
+          draft.advantage = player;
         });
       }
       // sinon c'est l'autre joueur qui a l'avantage
       // l'autre joueur perd l'avantage
       return produce(state, draft => {
-        draft.advantage= null;
+        draft.advantage = null;
       });
     }
   }
   return state;
 }
 
+
 // on crée le store
 export const store = createStore(reducer, initialState);
+
+store.subscribe(() => {
+  console.log("Nouveau state:");
+  console.log(store.getState());
+});
