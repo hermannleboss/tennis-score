@@ -1,6 +1,10 @@
 export const PLAYER = { PLAYER1: 'player1', PLAYER2: 'player2' };
 // mettre en pause / reprendre le jeu
 export const playPause = () => ({ type: 'playPause' });
+export const setPlaying = (playing) => ({
+  type: "setPlaying",
+  payload: playing,
+});
 // redémarrer le jeu
 export const restartGame = () => ({ type: 'restart' });
 /**
